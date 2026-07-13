@@ -1,0 +1,8 @@
+{
+  "name": "Remix: MRCL Infrastructure",
+  "description": "Premium 4 BHK Independent Villas in South Bangalore featuring luxury living, world-class amenities, and prime connectivity.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
