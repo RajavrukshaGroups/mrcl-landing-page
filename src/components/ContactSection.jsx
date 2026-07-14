@@ -105,8 +105,8 @@ export default function ContactSection() {
           {/* Direct Telephone */}
           <div className="flex flex-col gap-1 pt-4 border-t border-platinum/70 max-w-sm">
             <span className="text-[10px] font-bold text-charcoal/50 uppercase tracking-widest">VIP Direct Hotline</span>
-            <a href="tel:+918989399899" className="font-serif text-xl font-bold text-luxury-red hover:text-royal-gold transition-colors">
-              +91 898 939 9899
+            <a href="tel:+919071415999" className="font-serif text-xl font-bold text-luxury-red hover:text-royal-gold transition-colors">
+              +91 907 141 5999
             </a>
           </div>
         </div>

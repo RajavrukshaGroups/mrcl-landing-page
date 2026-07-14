@@ -61,8 +61,8 @@ export default function Footer({ onOpenBookingModal }) {
             <div className="flex flex-col gap-3 text-xs font-sans text-charcoal/85">
               <div className="flex items-center gap-0 hover:gap-2 group transition-all duration-300">
                 <Phone className="w-0 opacity-0 scale-0 group-hover:w-4 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 text-royal-gold flex-shrink-0"/>
-                <a href="tel:+918989399899" className="hover:text-luxury-red transition-colors">
-                  +91 898 939 9899
+                <a href="tel:+919071415999" className="hover:text-luxury-red transition-colors">
+                  +91 907 141 5999
                 </a>
               </div>
               <div className="flex items-center gap-0 hover:gap-2 group transition-all duration-300">
@@ -79,7 +79,7 @@ export default function Footer({ onOpenBookingModal }) {
               </div>
               <div className="flex items-center gap-0 hover:gap-2 group transition-all duration-300">
                 <MessageSquare className="w-0 opacity-0 scale-0 group-hover:w-4 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 text-royal-gold flex-shrink-0"/>
-                <a href="https://wa.me/918989399899" target="_blank" rel="noreferrer" className="hover:text-luxury-red transition-colors font-bold text-luxury-red">
+                <a href="https://wa.me/919071415999" target="_blank" rel="noreferrer" className="hover:text-luxury-red transition-colors font-bold text-luxury-red">
                   Chat with VIP Concierge
                 </a>
               </div>

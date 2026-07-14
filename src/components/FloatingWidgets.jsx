@@ -24,11 +24,11 @@ export default function FloatingWidgets({ showFloatingCta, isBookingModalOpen, s
 
       {/* 2. Floating WhatsApp and Phone direct widget (Bottom-right) */}
       <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3" id="sticky-contact-nodes">
-        <a href="tel:+918989399899" className="w-12 h-12 hover:w-28 bg-white hover:bg-soft-white text-luxury-red rounded-full shadow-2xl border border-royal-gold/30 flex items-center justify-center gap-0 hover:gap-1.5 transition-all duration-300 group overflow-hidden" title="Direct Phone Line" id="floating-call-btn">
+        <a href="tel:+919071415999" className="w-12 h-12 hover:w-28 bg-white hover:bg-soft-white text-luxury-red rounded-full shadow-2xl border border-royal-gold/30 flex items-center justify-center gap-0 hover:gap-1.5 transition-all duration-300 group overflow-hidden" title="Direct Phone Line" id="floating-call-btn">
           
           <span className="font-serif text-xs font-bold tracking-widest text-luxury-red transition-all duration-300"><Phone /></span>
         </a>
-        <a href="https://wa.me/918989399899" target="_blank" rel="noreferrer" className="w-12 h-12 hover:w-28 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-2xl flex items-center justify-center gap-0 hover:gap-1.5 transition-all duration-300 group overflow-hidden relative" title="Direct WhatsApp Chat" id="floating-whatsapp-btn">
+        <a href="https://wa.me/919071415999" target="_blank" rel="noreferrer" className="w-12 h-12 hover:w-28 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-2xl flex items-center justify-center gap-0 hover:gap-1.5 transition-all duration-300 group overflow-hidden relative" title="Direct WhatsApp Chat" id="floating-whatsapp-btn">
           {/* <span className="absolute right-14 bg-charcoal text-white text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-royal-gold/20 pointer-events-none">
            
           </span> */}
