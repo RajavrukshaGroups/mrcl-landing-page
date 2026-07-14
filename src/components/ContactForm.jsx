@@ -188,52 +188,59 @@
 //     </div>);
 // }
 
-
 import React, { useState } from "react";
 import { CheckCircle, ArrowRight, Loader2, Download } from "lucide-react";
-export default function ContactForm({ title = "Schedule a Private Tour", subtitle = "Enquire now for direct developer pricing and exclusive launch benefits.", isBrochureDownloadMode = false, onSuccess, idPrefix = "inline", }) {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        phone: "",
-        villaType: "4 BHK Regal Villa (3,200 sq.ft)",
-        brochureRequested: isBrochureDownloadMode,
-        message: "",
-    });
-    const [errors, setErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false);
-    const validateForm = () => {
-        const tempErrors = {};
-        if (!formData.name.trim())
-            tempErrors.name = "Full name is required";
-        if (!formData.email.trim()) {
-            tempErrors.email = "Email address is required";
-        }
-        else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            tempErrors.email = "Please enter a valid email address";
-        }
-        if (!formData.phone.trim()) {
-            tempErrors.phone = "Phone number is required";
-        }
-        else if (formData.phone.trim().startsWith("0") || formData.phone.trim().startsWith("+0")) {
-            tempErrors.phone = "Phone number cannot start with 0";
-        }
-        else if (!/^\d{10}$/.test(formData.phone.replace(/[\s-]/g, ""))) {
-            tempErrors.phone = "Please enter a valid 10-digit phone number";
-        }
-        setErrors(tempErrors);
-        return Object.keys(tempErrors).length === 0;
-    };
-    const handleSubmit = async (e) => {
-      e.preventDefault();
+export default function ContactForm({
+  title = "Schedule a Private Tour",
+  subtitle = "Enquire now for direct developer pricing and exclusive launch benefits.",
+  isBrochureDownloadMode = false,
+  onSuccess,
+  idPrefix = "inline",
+}) {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    villaType: "4 BHK Regal Villa (3,200 sq.ft)",
+    brochureRequested: isBrochureDownloadMode,
+    message: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const validateForm = () => {
+    const tempErrors = {};
+    if (!formData.name.trim()) tempErrors.name = "Full name is required";
+    if (!formData.email.trim()) {
+      tempErrors.email = "Email address is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      tempErrors.email = "Please enter a valid email address";
+    }
+    if (!formData.phone.trim()) {
+      tempErrors.phone = "Phone number is required";
+    } else if (
+      formData.phone.trim().startsWith("0") ||
+      formData.phone.trim().startsWith("+0")
+    ) {
+      tempErrors.phone = "Phone number cannot start with 0";
+    } else if (!/^\d{10}$/.test(formData.phone.replace(/[\s-]/g, ""))) {
+      tempErrors.phone = "Please enter a valid 10-digit phone number";
+    }
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      if (!validateForm()) return;
+    if (!validateForm()) return;
 
-      setIsSubmitting(true);
+    setIsSubmitting(true);
 
-      try {
-        const response = await fetch("http://localhost:5000/api/enquiry", {
+    try {
+      // const response = await fetch("http://localhost:5000/api/enquiry", {
+      const response = await fetch(
+        "https://api.mrclinfrastructure.com/api/enquiry",
+        {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -244,66 +251,90 @@ export default function ContactForm({ title = "Schedule a Private Tour", subtitl
             phone: formData.phone,
             message: formData.message,
           }),
-        });
+        },
+      );
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (!response.ok) {
-          throw new Error(data.message || "Failed to submit enquiry");
-        }
-
-        setIsSuccess(true);
-
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          message: "",
-        });
-
-        if (onSuccess) {
-          setTimeout(() => onSuccess(), 1500);
-        }
-
-        setTimeout(() => {
-          setIsSuccess(false);
-        }, 3000);
-
-      } catch (error) {
-        console.error(error);
-        alert(error.message || "Something went wrong!");
-      } finally {
-        setIsSubmitting(false);
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to submit enquiry");
       }
-    };
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-        if (errors[name]) {
-            setErrors((prev) => ({ ...prev, [name]: "" }));
-        }
-    };
-    return (<div className="bg-white p-6 sm:p-10 rounded-2xl shadow-xl border border-royal-gold/25 relative overflow-hidden" id={`${idPrefix}-contact-card-wrapper`}>
-      {/* Decorative luxury absolute accent bars */}
-      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-luxury-red via-royal-gold to-luxury-red"/>
 
-      {isSuccess ? (<div className="flex flex-col items-center justify-center text-center py-12 px-4 animate-fade-in" id={`${idPrefix}-form-success-panel`}>
+      setIsSuccess(true);
+
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+
+      if (onSuccess) {
+        setTimeout(() => onSuccess(), 1500);
+      }
+
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 3000);
+    } catch (error) {
+      console.error(error);
+      alert(error.message || "Something went wrong!");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+  return (
+    <div
+      className="bg-white p-6 sm:p-10 rounded-2xl shadow-xl border border-royal-gold/25 relative overflow-hidden"
+      id={`${idPrefix}-contact-card-wrapper`}
+    >
+      {/* Decorative luxury absolute accent bars */}
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-luxury-red via-royal-gold to-luxury-red" />
+
+      {isSuccess ? (
+        <div
+          className="flex flex-col items-center justify-center text-center py-12 px-4 animate-fade-in"
+          id={`${idPrefix}-form-success-panel`}
+        >
           <div className="w-16 h-16 bg-royal-gold/10 text-royal-gold rounded-full flex items-center justify-center mb-6 border border-royal-gold/30">
-            <CheckCircle className="w-10 h-10 animate-scale-up"/>
+            <CheckCircle className="w-10 h-10 animate-scale-up" />
           </div>
           <h3 className="font-serif text-2xl font-bold text-charcoal mb-3">
-            {isBrochureDownloadMode ? "Brochure Access Ready" : "Site Visit Scheduled"}
+            {isBrochureDownloadMode
+              ? "Brochure Access Ready"
+              : "Site Visit Scheduled"}
           </h3>
           <p className="text-sm text-charcoal/70 font-sans max-w-sm mb-6 leading-relaxed">
             {isBrochureDownloadMode
-                ? "Your premium digital brochure has been processed. A VIP Sales Manager will email you the full technical drawing packages shortly."
-                : "Thank you for choosing MRCL. A personal chauffeur-driven concierge luxury coordinator will call you in the next 15 minutes to finalize travel arrangements."}
+              ? "Your premium digital brochure has been processed. A VIP Sales Manager will email you the full technical drawing packages shortly."
+              : "Thank you for choosing MRCL. A personal chauffeur-driven concierge luxury coordinator will call you in the next 15 minutes to finalize travel arrangements."}
           </p>
-          {isBrochureDownloadMode && (<a href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-luxury-red hover:bg-luxury-red-light text-white font-sans text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-full transition-all gold-shine-effect" id={`${idPrefix}-download-direct-pdf`}>
-              <Download className="w-4 h-4"/>
+          {isBrochureDownloadMode && (
+            <a
+              href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 bg-luxury-red hover:bg-luxury-red-light text-white font-sans text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-full transition-all gold-shine-effect"
+              id={`${idPrefix}-download-direct-pdf`}
+            >
+              <Download className="w-4 h-4" />
               <span>Download Digital Copy</span>
-            </a>)}
-        </div>) : (<form onSubmit={handleSubmit} className="flex flex-col gap-5" id={`${idPrefix}-contact-form`}>
+            </a>
+          )}
+        </div>
+      ) : (
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-5"
+          id={`${idPrefix}-contact-form`}
+        >
           <div>
             <h3 className="font-serif text-2xl font-bold text-charcoal tracking-tight">
               {title}
@@ -316,58 +347,128 @@ export default function ContactForm({ title = "Schedule a Private Tour", subtitl
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Full Name */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor={`${idPrefix}-name-input`} className="text-[10px] font-bold uppercase tracking-widest text-charcoal/80">
+              <label
+                htmlFor={`${idPrefix}-name-input`}
+                className="text-[10px] font-bold uppercase tracking-widest text-charcoal/80"
+              >
                 Full Name <span className="text-luxury-red">*</span>
               </label>
-              <input type="text" id={`${idPrefix}-name-input`} name="name" value={formData.name} onChange={handleInputChange} className={`w-full px-4 py-3 bg-soft-white border ${errors.name ? "border-luxury-red" : "border-platinum hover:border-royal-gold/50"} rounded-lg text-sm font-sans focus:outline-none focus:ring-1 focus:ring-royal-gold transition-all`} placeholder="Lord / Lady Name"/>
-              {errors.name && (<span className="text-[10px] font-semibold text-luxury-red">{errors.name}</span>)}
+              <input
+                type="text"
+                id={`${idPrefix}-name-input`}
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                className={`w-full px-4 py-3 bg-soft-white border ${errors.name ? "border-luxury-red" : "border-platinum hover:border-royal-gold/50"} rounded-lg text-sm font-sans focus:outline-none focus:ring-1 focus:ring-royal-gold transition-all`}
+                placeholder="Lord / Lady Name"
+              />
+              {errors.name && (
+                <span className="text-[10px] font-semibold text-luxury-red">
+                  {errors.name}
+                </span>
+              )}
             </div>
 
             {/* Email Address */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor={`${idPrefix}-email-input`} className="text-[10px] font-bold uppercase tracking-widest text-charcoal/80">
+              <label
+                htmlFor={`${idPrefix}-email-input`}
+                className="text-[10px] font-bold uppercase tracking-widest text-charcoal/80"
+              >
                 Email Address <span className="text-luxury-red">*</span>
               </label>
-              <input type="email" id={`${idPrefix}-email-input`} name="email" value={formData.email} onChange={handleInputChange} className={`w-full px-4 py-3 bg-soft-white border ${errors.email ? "border-luxury-red" : "border-platinum hover:border-royal-gold/50"} rounded-lg text-sm font-sans focus:outline-none focus:ring-1 focus:ring-royal-gold transition-all`} placeholder="name@luxurymail.com"/>
-              {errors.email && (<span className="text-[10px] font-semibold text-luxury-red">{errors.email}</span>)}
+              <input
+                type="email"
+                id={`${idPrefix}-email-input`}
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className={`w-full px-4 py-3 bg-soft-white border ${errors.email ? "border-luxury-red" : "border-platinum hover:border-royal-gold/50"} rounded-lg text-sm font-sans focus:outline-none focus:ring-1 focus:ring-royal-gold transition-all`}
+                placeholder="name@luxurymail.com"
+              />
+              {errors.email && (
+                <span className="text-[10px] font-semibold text-luxury-red">
+                  {errors.email}
+                </span>
+              )}
             </div>
           </div>
 
           {/* Phone Number */}
           <div className="flex flex-col gap-1.5">
-            <label htmlFor={`${idPrefix}-phone-input`} className="text-[10px] font-bold uppercase tracking-widest text-charcoal/80">
+            <label
+              htmlFor={`${idPrefix}-phone-input`}
+              className="text-[10px] font-bold uppercase tracking-widest text-charcoal/80"
+            >
               Contact Number <span className="text-luxury-red">*</span>
             </label>
-            <input type="tel" id={`${idPrefix}-phone-input`} name="phone" value={formData.phone} onChange={handleInputChange} className={`w-full px-4 py-3 bg-soft-white border ${errors.phone ? "border-luxury-red" : "border-platinum hover:border-royal-gold/50"} rounded-lg text-sm font-sans focus:outline-none focus:ring-1 focus:ring-royal-gold transition-all`} placeholder="98765 43210"/>
-            {errors.phone && (<span className="text-[10px] font-semibold text-luxury-red">{errors.phone}</span>)}
+            <input
+              type="tel"
+              id={`${idPrefix}-phone-input`}
+              name="phone"
+              value={formData.phone}
+              onChange={handleInputChange}
+              className={`w-full px-4 py-3 bg-soft-white border ${errors.phone ? "border-luxury-red" : "border-platinum hover:border-royal-gold/50"} rounded-lg text-sm font-sans focus:outline-none focus:ring-1 focus:ring-royal-gold transition-all`}
+              placeholder="98765 43210"
+            />
+            {errors.phone && (
+              <span className="text-[10px] font-semibold text-luxury-red">
+                {errors.phone}
+              </span>
+            )}
           </div>
 
           {/* Personal message/special request */}
           <div className="flex flex-col gap-1.5">
-            <label htmlFor={`${idPrefix}-message-input`} className="text-[10px] font-bold uppercase tracking-widest text-charcoal/80">
+            <label
+              htmlFor={`${idPrefix}-message-input`}
+              className="text-[10px] font-bold uppercase tracking-widest text-charcoal/80"
+            >
               Bespoke Custom Requests / Message
             </label>
-            <textarea id={`${idPrefix}-message-input`} name="message" value={formData.message} onChange={handleInputChange} rows={2} className="w-full px-4 py-3 bg-soft-white border border-platinum hover:border-royal-gold/50 rounded-lg text-sm font-sans focus:outline-none focus:ring-1 focus:ring-royal-gold transition-all resize-none" placeholder="E.g., Require central elevator, Vastu direction requirements, etc."/>
+            <textarea
+              id={`${idPrefix}-message-input`}
+              name="message"
+              value={formData.message}
+              onChange={handleInputChange}
+              rows={2}
+              className="w-full px-4 py-3 bg-soft-white border border-platinum hover:border-royal-gold/50 rounded-lg text-sm font-sans focus:outline-none focus:ring-1 focus:ring-royal-gold transition-all resize-none"
+              placeholder="E.g., Require central elevator, Vastu direction requirements, etc."
+            />
           </div>
 
           {/* Luxury Action Button */}
-          <button type="submit" disabled={isSubmitting} className="w-full bg-luxury-red hover:bg-luxury-red-light disabled:bg-luxury-red/50 text-white font-sans text-xs font-bold uppercase tracking-widest py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-0 hover:gap-2 mt-2 gold-shine-effect cursor-pointer group" id={`${idPrefix}-contact-submit-button`}>
-            {isSubmitting ? (<>
-                <Loader2 className="w-4 h-4 animate-spin"/>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-luxury-red hover:bg-luxury-red-light disabled:bg-luxury-red/50 text-white font-sans text-xs font-bold uppercase tracking-widest py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-0 hover:gap-2 mt-2 gold-shine-effect cursor-pointer group"
+            id={`${idPrefix}-contact-submit-button`}
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
                 <span>Authenticating Request...</span>
-              </>) : isBrochureDownloadMode ? (<>
-                <Download className="w-0 opacity-0 scale-0 group-hover:w-4 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 flex-shrink-0"/>
+              </>
+            ) : isBrochureDownloadMode ? (
+              <>
+                <Download className="w-0 opacity-0 scale-0 group-hover:w-4 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 flex-shrink-0" />
                 <span>Request Exclusive Brochure</span>
-              </>) : (<>
+              </>
+            ) : (
+              <>
                 <span>Arrange Chauffeur Visit</span>
-                <ArrowRight className="w-0 opacity-0 scale-0 group-hover:w-4 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 flex-shrink-0"/>
-              </>)}
+                <ArrowRight className="w-0 opacity-0 scale-0 group-hover:w-4 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 flex-shrink-0" />
+              </>
+            )}
           </button>
 
           {/* Regulatory details */}
           <div className="text-[9px] font-sans text-charcoal/40 text-center leading-relaxed">
-            By submitting, you agree to receive automated VVIP concierge scheduling calls. Your privacy is structurally locked.
+            By submitting, you agree to receive automated VVIP concierge
+            scheduling calls. Your privacy is structurally locked.
           </div>
-        </form>)}
-    </div>);
+        </form>
+      )}
+    </div>
+  );
 }
