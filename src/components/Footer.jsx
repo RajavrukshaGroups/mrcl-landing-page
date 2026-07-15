@@ -115,7 +115,7 @@ export default function Footer({ onOpenBookingModal }) {
           <span className="hover:text-luxury-red cursor-pointer">RERA NO: PRM/KA/RERA/1251/310/PR/090226</span>
         </div> */}
         <div className="flex gap-5">
-          <span className="hover:text-luxury-red text-charcoal/80 cursor-pointer">Powered by <span className="text-luxury-red hover:text-royal-gold-light"><a href="https://digitaleliteservices.com" target="_blank" rel="noreferrer">Digital Elite Service</a></span></span>
+          <span className="hover:text-luxury-red text-charcoal/80 cursor-pointer">Powered by <span className="text-luxury-red hover:text-royal-gold-light"><a href="https://digitaleliteservices.in" target="_blank" rel="noreferrer">Digital Elite Service</a></span></span>
         </div>
         </div>
       </div>
