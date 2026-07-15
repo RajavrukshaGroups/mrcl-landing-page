@@ -105,7 +105,7 @@ export default function Footer({ onOpenBookingModal }) {
         <div className="my-10 h-[1px] bg-gradient-to-r from-transparent via-royal-gold/40 to-transparent"/>
 
         {/* Bottom Bar copyright & terms */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] font-semibold font-sans uppercase tracking-widest text-charcoal/50">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] font-semibold font-sans uppercase tracking-widest text-charcoal/80">
           <div>
             © {currentYear} MRCL Infrastructure Pvt Ltd. All Rights Reserved.
           </div>
@@ -114,6 +114,9 @@ export default function Footer({ onOpenBookingModal }) {
           <span className="hover:text-luxury-red cursor-pointer">PRIVACY POLICY</span>
           <span className="hover:text-luxury-red cursor-pointer">RERA NO: PRM/KA/RERA/1251/310/PR/090226</span>
         </div> */}
+        <div className="flex gap-5">
+          <span className="hover:text-luxury-red text-charcoal/80 cursor-pointer">Powered by <span className="text-luxury-red hover:text-royal-gold-light"><a href="https://digitaleliteservices.com" target="_blank" rel="noreferrer">Digital Elite Service</a></span></span>
+        </div>
         </div>
       </div>
     </footer>);
