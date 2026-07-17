@@ -321,7 +321,7 @@ export default function RightInquirySidebar() {
                       </>
                     ) : (
                       <>
-                        <span>Transmit Message</span>
+                        <span>Submit Message</span>
                         <Send className="w-3 h-3 group-hover:translate-x-0.5 transition-transform text-royal-gold" />
                       </>
                     )}
