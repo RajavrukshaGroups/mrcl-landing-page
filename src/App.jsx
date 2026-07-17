@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { useSelector, useDispatch } from "react-redux";
+import { setEnquirySubmitted } from "./store/enquirySlice";
 
 // Import Custom Global Components
 import Navbar from "./components/Navbar";
@@ -21,8 +23,12 @@ import InvestmentSection from "./components/InvestmentSection";
 import TestimonialsSection from "./components/TestimonialsSection";
 import FaqSection from "./components/FaqSection";
 import ContactSection from "./components/ContactSection";
+import ContactForm from "./components/ContactForm";
 
 export default function App() {
+  const isEnquirySubmitted = useSelector((state) => state.enquiry.isEnquirySubmitted);
+  const dispatch = useDispatch();
+
   // Modal & Drawer State managers
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [isBrochureModalOpen, setIsBrochureModalOpen] = useState(false);
@@ -58,16 +64,11 @@ export default function App() {
   useEffect(() => {
     refreshInquiryCount();
 
-    // Listen to form submissions to live sync badges
-    window.addEventListener("mrcl_inquiries_updated", refreshInquiryCount);
-
     const handleScroll = () => {
-      // Calculate Scroll Progress
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = (window.scrollY / scrollHeight) * 100;
       setScrollPercent(progress);
 
-      // Show floating CTA after scrolling past 35% of the page
       if (window.scrollY > window.innerHeight * 0.35) {
         setShowFloatingCta(true);
       } else {
@@ -75,16 +76,37 @@ export default function App() {
       }
     };
 
+    window.addEventListener("mrcl_inquiries_updated", refreshInquiryCount);
     window.addEventListener("scroll", handleScroll);
+
+    // Prevent body scrolling if enquiry form is not submitted
+    if (!isEnquirySubmitted) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
 
     return () => {
       window.removeEventListener("mrcl_inquiries_updated", refreshInquiryCount);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [isEnquirySubmitted]);
 
   return (
-    <div className="bg-white min-h-screen relative font-sans text-charcoal flex flex-col justify-between" id="applet-root">
+    <>
+      {!isEnquirySubmitted && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-md p-4">
+          <div className="w-full max-w-2xl relative z-[10000] max-h-screen overflow-y-auto custom-scrollbar">
+            <ContactForm
+              title="Welcome to MRCL"
+              subtitle="Please submit an enquiry to access the site."
+              onSuccess={() => dispatch(setEnquirySubmitted(true))}
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="bg-white min-h-screen relative font-sans text-charcoal flex flex-col justify-between" id="applet-root">
       <Helmet>
         <title>
           Premium Luxury 4 BHK Independent Villas for Sale in Bannerghatta,
@@ -178,5 +200,6 @@ export default function App() {
       <RightInquirySidebar />
 
     </div>
+    </>
   );
 }

@@ -237,7 +237,7 @@ export default function ContactForm({
     setIsSubmitting(true);
 
     try {
-      // const response = await fetch("http://localhost:8500/api/enquiry", {
+      // const response = await fetch("http://localhost:5000/api/enquiry", {
       const response = await fetch(
         "https://api.mrclinfrastructure.com/api/enquiry",
         {
@@ -360,7 +360,7 @@ export default function ContactForm({
                 value={formData.name}
                 onChange={handleInputChange}
                 className={`w-full px-4 py-3 bg-soft-white border ${errors.name ? "border-luxury-red" : "border-platinum hover:border-royal-gold/50"} rounded-lg text-sm font-sans focus:outline-none focus:ring-1 focus:ring-royal-gold transition-all`}
-                placeholder="Lord / Lady Name"
+                placeholder="Name"
               />
               {errors.name && (
                 <span className="text-[10px] font-semibold text-luxury-red">
